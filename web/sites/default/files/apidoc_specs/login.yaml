@@ -1,0 +1,83 @@
+openapi: 3.0.1
+info:
+  title: login
+  description: Request an access token, required for most API calls. Ensure the server enviroment right above the Execute button is set to desired type - PROD or DEV.
+  version: "1.0"
+servers:
+- url: https://groupm-prod.apigee.net
+  description: Live production data
+- url: https://groupm-dev.apigee.net
+  description: Dev production data
+paths:
+  /mPlatform/mptv/login:
+    post:
+      description: Required parameters
+      parameters:
+      - name: x-apikey
+        in: header
+        required: true
+        style: simple
+        explode: false
+        description: The x-apikey is the Consumer Key for the App, members only.
+        schema:
+          type: string
+        example: 2EKZQeOCcPGXZkdAWOkribHzRhov8Wkm
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/body'
+            examples:
+              0:
+                value: |-
+                  {
+                  "user": "dummy.user@groupm.com",
+                  "password": "letmein"
+                  }
+      responses:
+        200:
+          description: Json responce on 200 OK
+          content:
+            application/json;charset=UTF-8:
+               schema:
+                type: object
+                properties:
+                  user_id:
+                    type: string
+                    description: Okta userID.
+                  access_token:
+                    type: string
+                    description: The access token.
+                  refresh_token:
+                    type: string
+                    description: The refresh token.
+                  expire:
+                    type: number
+                    description: The expire time.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorised.
+        '403':
+          description: Forbidden.
+        '404':
+          description: Not Found.
+        '415':
+          description: Unsupported Media Type
+        '500':
+          description: Internal Server Error
+      servers:
+        - url: https://groupm-prod.apigee.net
+        - url: https://groupm-dev.apigee.net
+    servers:
+      - url: https://groupm-prod.apigee.net
+      - url: https://groupm-dev.apigee.net
+components:
+  schemas:
+    body:
+      type: object
+      properties:
+        user:
+          type: string
+        password:
+          type: string

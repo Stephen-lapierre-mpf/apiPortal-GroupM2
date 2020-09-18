@@ -1,0 +1,165 @@
+openapi: 3.0.1
+info:
+  title: mirmetadatalookup
+  description: MIR meta data lookup, provide metadata for MIR report. Ensure the server enviroment right above the Execute button is set to desired type - PROD or DEV.
+  version: "3.1"
+servers:
+- url: https://groupm-prod.apigee.net
+  description: Live production data
+- url: https://groupm-dev.apigee.net
+  description: Dev production data
+paths:
+  /mPlatform/mptv/mirmetadatalookup:
+    get:
+      description: All Parameters Required parameters Inspector
+      parameters:
+      - name: accountId
+        in: query
+        required: true
+        style: form
+        explode: true
+        description: The account ID to narrow the search
+        schema:
+          type: string
+        example: "2"
+      - name: AcmToken
+        in: header
+        required: true
+        style: simple
+        explode: false
+        description: The Okta Authentication token issued by GroupM
+        schema:
+          type: string
+        example: eyJraWQiOiI2YzdkTFpOS3JxcEhrMDVhTzZ0Rkl0LWhvWlQ4VmNDUGdydm9ta3BDR0dZIiwiYWxnIjoiUlMyNTYifQ.eyJ2ZXIiO
+      - name: x-apikey
+        in: header
+        required: true
+        style: simple
+        explode: false
+        description: The x-apikey is the Consumer Key for the App, members only.
+        schema:
+          type: string
+        example: I9omz9xfkLn9gIXlVWSxFhN8yTYApiyx
+      responses:
+        200:
+          description: |-
+            200 response
+          content:
+            application/json:
+              examples:
+                schema:
+                  value: {
+                    : [
+  {
+    "adultNumbers": [
+      {
+        "adultNumber": "string",
+        "displayName": "string"
+      }
+    ],
+    "ageGroups": [
+      {
+        "ageGroup": "string",
+        "displayName": "string"
+      }
+    ],
+    "audienceTypes": [
+      {
+        "audienceTypes": [
+          {
+            "audienceType": "string",
+            "displayName": "string"
+          }
+        ],
+        "displayName": "string"
+      }
+    ],
+    "childrenNumbers": [
+      {
+        "childrenNumber": "string",
+        "displayName": "string"
+      }
+    ],
+    "childrenUnderSeven": [
+      {
+        "childrenUnderSeven": "string",
+        "displayName": "string"
+      }
+    ],
+    "digitalBehaviorLevels": [
+      {
+        "displayName": "string",
+        "level": "string"
+      }
+    ],
+    "genders": [
+      {
+        "displayName": "string",
+        "gender": "string"
+      }
+    ],
+    "incomeBands": [
+      {
+        "displayName": "string",
+        "incomeBand": "string"
+      }
+    ],
+    "individualDemographics": [
+      {
+        "displayName": "string",
+        "individual": "string"
+      }
+    ],
+    "markets": [
+      {
+        "displayName": "string",
+        "market": 0
+      }
+    ],
+    "metrics": [
+      {
+        "displayName": "string",
+        "metric": "string",
+        "metricType": "string"
+      }
+    ],
+    "preselectedAudience": [
+      {
+        "displayName": "string",
+        "preselectedAudience": "string"
+      }
+    ],
+    "preselectedValues": [
+      {
+        "displayName": "string",
+        "preselectedValue": "string"
+      }
+    ],
+    "socialClasses": [
+      {
+        "displayName": "string",
+        "socialClass": "string"
+      }
+    ]
+  }
+                    ]
+                 }
+        400:
+          description: Bad Request.
+        401:
+          description: Unauthorised.
+        403:
+          description: Forbidden.
+        404:
+          description: Not Found.
+        415:
+          description: Unsupported Media Type
+        500:
+          description: Internal Server Error
+      servers:
+        - url: https://groupm-prod.apigee.net
+        - url: https://groupm-dev.apigee.net
+    servers:
+      - url: https://groupm-prod.apigee.net
+      - url: https://groupm-dev.apigee.net
+components: {}

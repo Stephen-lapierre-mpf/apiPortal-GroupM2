@@ -1,0 +1,83 @@
+openapi: 3.0.1
+info:
+  title: accessToken
+  description: Using the refresh token to obtain fresh token. Ensure the server enviroment right above the Execute button is set to desired type - PROD or DEV.
+  version: "1.0"
+servers:
+- url: https://groupm-prod.apigee.net
+  description: Live production data
+- url: https://groupm-dev.apigee.net
+  description: Dev production data
+paths:
+  /mPlatform/mptv/accessToken:
+    post:
+      description: All parameters are required in this API
+      parameters:
+      - name: x-apikey
+        in: header
+        required: true
+        style: simple
+        description: The x-apikey is the Consumer Key for App, members only.
+        explode: false
+        schema:
+          type: string
+        example: 0TXGmzbpFJOX9HwKGpyboq9S8LIHyvnv
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/body'
+            examples:
+              0:
+                value: |-
+                  {
+                  "refresh_token": "917PgXe_SjGr_kNhctS6y1j5jhTXDP7oeKAAg4fSSm0"
+                  }
+      responses:
+        200:
+          description: JSON array of advertiser / brand objects.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_id:
+                    type: string
+                    description: user_id.
+                  access_token:
+                    type: string
+                    description: access_token.
+                  refresh_token:
+                    type: string
+                    description: refresh_token.
+                  expire:
+                    type: string
+                    description: The expire time.
+        400:
+          description: Bad Request.
+        401:
+          description: Unauthorised.
+        403:
+          description: Forbidden.
+        404:
+          description: Not Found.
+        415:
+          description: Unsupported Media Type
+        500:
+          description: Internal Server Error
+        default:
+          description: The credentials provided are not invalid
+      servers:
+        - url: https://groupm-prod.apigee.net
+        - url: https://groupm-dev.apigee.net
+    servers:
+      - url: https://groupm-prod.apigee.net
+      - url: https://groupm-dev.apigee.net
+components:
+  schemas:
+    body:
+      type: object
+      properties:
+        refresh_token:
+          type: string
+

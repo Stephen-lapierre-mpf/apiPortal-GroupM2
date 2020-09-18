@@ -1,0 +1,71 @@
+openapi: 3.0.1
+info:
+  title: advertiserdatapartners
+  description: advertiser data partner lookup for MIR reports. Ensure the server enviroment right above the Execute button is set to desired type - PROD or DEV.
+  version: "1.0"
+servers:
+- url: https://groupm-prod.apigee.net
+  description: Live production data
+- url: https://groupm-dev.apigee.net
+  description: Dev production data
+paths:
+  /mPlatform/mptv/advertiserdatapartners:
+    get:
+      description: Aadvertiser data partner lookup parameters
+      parameters:
+      - name: x-apikey
+        in: header
+        required: true
+        style: simple
+        explode: false
+        description: The x-apikey is the Consumer Key for the App, members only.
+        schema:
+          type: string
+        example: 0TXGmzbpFJOX9HwKGpyboq9S8LIHyvnv
+      - name: accountId
+        in: query
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+        example: "2"
+      - name: search
+        in: query
+        required: false
+        allowEmptyValue: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: audienceType
+        in: query
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+        example: DEMOGRAPHIC
+      - name: AcmToken
+        in: header
+        required: true
+        style: simple
+        description: The Okta Authentication token issued by GroupM
+        explode: false
+        schema:
+          type: string
+        example: eyJraWQiOiI2YzdkTFpOS3JxcEhrMDVhTzZ0Rkl0LWhvWlQ4VmNDUGdydm9ta3BDR0dZIiwiYWxnIjoiUlMyNTYifQeyJ2ZX
+        200:
+          description: 400 Bad request and 500 on error.
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: string
+              examples: {}
+      servers:
+        - url: https://groupm-prod.apigee.net
+        - url: https://groupm-dev.apigee.net
+    servers:
+      - url: https://groupm-prod.apigee.net
+      - url: https://groupm-dev.apigee.net
+components: {}

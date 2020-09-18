@@ -1,0 +1,5 @@
+*.crt
+*.key
+google.sh
+Dockerfile
+tag.sh

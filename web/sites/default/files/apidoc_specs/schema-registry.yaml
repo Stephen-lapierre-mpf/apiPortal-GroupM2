@@ -1,0 +1,215 @@
+openapi: 3.0.1
+info:
+  version: "1.4"
+  title: Schema Registry
+  description: Schema Registry API
+  contact:
+    name: Anil Pandey
+    email: anil.pandey@groupm.tech
+    url: https://groupm.com
+tags:
+  - name: Register/Update Schema
+    description: Register Schema
+  - name: List Schema versions
+    description: List Schema version
+  - name: Get Schema
+    description: Get Schema
+  - name: Get All Schema
+    description: Get all the registered schema
+servers:
+- url: https://groupm-dev.apigee.net
+  description: Dev production data
+paths:
+  /mplatform/mi-verne/schema-registry/subjects/{schemaname}/versions:
+    post:
+      summary: register schema
+      tags:
+        - Register/Update Schema
+      operationId: registerSchema
+      consumes:
+        - "application/vnd.schemaregistry.v1+json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: schemaname
+          in: path
+          required: true
+          description: schema name
+          type: string
+        - in: "body"
+          name: "body"
+          description: "Schema wants to registered"
+          required: true
+          schema:
+            $ref: '#/definitions/Schema'
+        - name: x-apikey
+          in: header
+          required: true
+          description: The x-apikey is the Consumer Key for App, members only.
+          type: string
+      responses:
+        '200':
+          description: Complete list of categories
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: string
+              examples: {}
+      servers:
+        - url: https://groupm-dev.apigee.net
+    servers:
+      - url: https://groupm-dev.apigee.net
+  /mplatform/mi-verne/schema-registry/subjects/{schemaname}/versions/:
+    get:
+      summary: Get a schema by global id
+      operationId: getAllSchemaVersions
+      tags:
+        - List Schema versions
+      produces:
+        - "application/json"
+      parameters:
+        - name: schemaname
+          in: path
+          required: true
+          description: list of versions
+          type: string
+        - name: x-apikey
+          in: header
+          required: true
+          description: The x-apikey is the Consumer Key for App, members only.
+          type: string
+      responses:
+        '200':
+          description: Selected schema
+          content:
+            application/json:
+              schema:
+                type: string
+              examples: {}
+        '404':
+          description: No version found
+      servers:
+        - url: https://groupm-dev.apigee.net
+    servers:
+      - url: https://groupm-dev.apigee.net
+  /mplatform/mi-verne/schema-registry/subjects/{schemaname}/versions/{version}:
+    get:
+      summary: Get a schema by global id
+      operationId: getSchemabyversion
+      tags:
+        - Get Schema
+      produces:
+        - "application/json"
+      parameters:
+        - name: schemaname
+          in: path
+          required: true
+          description: list of versions
+          type: string
+        - name: version
+          in: path
+          required: true
+          description: schema version
+          type: string
+        - name: x-apikey
+          in: header
+          required: true
+          description: The x-apikey is the Consumer Key for App, members only.
+          type: string
+      responses:
+        '200':
+          description: Selected schema
+          content:
+            application/json:
+              schema:
+                type: string
+              examples: {}
+        '404':
+          description: Product not found
+      servers:
+        - url: https://groupm-dev.apigee.net
+    servers:
+      - url: https://groupm-dev.apigee.net
+  /mplatform/mi-verne/schema-registry/schemas/ids/{globalId}:
+    get:
+      summary: Get a schema by global id
+      operationId: getSchemabyGlobalId
+      tags:
+        - Get Schema
+      produces:
+        - "application/json"
+      parameters:
+        - name: globalId
+          in: path
+          required: true
+          description: global id
+          type: string
+        - name: x-apikey
+          in: header
+          required: true
+          description: The x-apikey is the Consumer Key for App, members only.
+          type: string
+      responses:
+        '200':
+          description: Selected schema
+          content:
+            application/json:
+              schema:
+                type: object
+              examples: {}
+        '404':
+          description: Schema not found
+      servers:
+        - url: https://groupm-dev.apigee.net
+    servers:
+      - url: https://groupm-dev.apigee.net
+  /mplatform/mi-verne/schema-registry/subjects/:
+    get:
+      summary: Get all the schemas
+      operationId: getAllRegisteredSchemas
+      tags:
+        - Get All Schema
+      produces:
+        - "application/json"
+      parameters:
+        - name: x-apikey
+          in: header
+          required: true
+          description: The x-apikey is the Consumer Key for App, members only.
+          type: string
+      responses:
+        '200':
+          description: Selected schema
+          content:
+            application/json:
+              schema:
+                type: object
+              examples: {}
+        '404':
+          description: No Schema Registered
+      servers:
+        - url: https://groupm-dev.apigee.net
+    servers:
+      - url: https://groupm-dev.apigee.net
+components: {}
+definitions:
+  Schema:
+    type: object
+    description: schema
+    required:
+      - schema
+    properties:
+      schema:
+        description: schema name
+        type: string
+  Error:
+    type: object
+    description: error response
+    required:
+      - error
+      - error_description
+    properties:
+      error:
+        type: string
+      error_description:
+        type: string

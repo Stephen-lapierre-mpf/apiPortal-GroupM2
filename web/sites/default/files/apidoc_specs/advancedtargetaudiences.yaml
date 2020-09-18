@@ -1,0 +1,107 @@
+openapi: 3.0.1
+info:
+  title: advancedtargetaudiences
+  description: target audience lookup for MIR reports. Ensure the server enviroment right above the Execute button is set to desired type - PROD or DEV.
+  version: "1.0"
+servers:
+- url: https://groupm-prod.apigee.net
+  description: Live production data
+- url: https://groupm-dev.apigee.net
+  description: Dev production data
+paths:
+  /mPlatform/mptv/advancedtargetaudiences:
+    get:
+      description: target audience lookup parameters
+      parameters:
+      - name: x-apikey
+        in: header
+        required: true
+        style: simple
+        explode: false
+        description: The x-apikey is the Consumer Key for the App, members only.
+        schema:
+          type: string
+        example: 0TXGmzbpFJOX9HwKGpyboq9S8LIHyvnv
+      - name: accountId
+        in: query
+        required: true
+        style: form
+        explode: true
+        description: The account ID to narrow the search
+        schema:
+          type: integer
+          format: int32
+        example: 2
+      - name: level
+        in: query
+        required: false
+        allowEmptyValue: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: advertiserDatapartnerName
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        example: Tiffany
+      - name: audienceType
+        in: query
+        required: true
+        style: form
+        explode: true
+        description: The audience type obtained by core API list of types.
+        schema:
+          type: string
+        example: DEMOGRAPHIC
+      - name: AcmToken
+        in: header
+        required: true
+        style: simple
+        description: The Okta Authentication token issued by GroupM
+        explode: false
+        schema:
+          type: string
+        example: eyJraWQiOiI2YzdkTFpOS3JxcEhrMDVhTzZ0Rkl0LWhvWlQ4VmNDUGdydm9ta3BDR0dZIiwiYWxnIjoiUlMyNTYifQey
+      responses:
+        200:
+          description: Json list of schema.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  advancedTargetAudience:
+                    type: string
+                    description: advancedTargetAudience.
+                  advertiserDataPartnerName:
+                    type: string
+                    description: advertiserDataPartnerName.
+                  displayName:
+                    type: string
+                    description: displayName.
+
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorised.
+        '403':
+          description: Forbidden.
+        '404':
+          description: Not Found.
+        '415':
+          description: Unsupported Media Type
+        '500':
+          description: Internal Server Error
+
+      servers:
+        - url: https://groupm-prod.apigee.net
+        - url: https://groupm-dev.apigee.net
+    servers:
+      - url: https://groupm-prod.apigee.net
+      - url: https://groupm-dev.apigee.net
+
+components: {}

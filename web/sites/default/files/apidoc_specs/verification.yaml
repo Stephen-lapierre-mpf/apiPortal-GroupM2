@@ -1,0 +1,72 @@
+openapi: 3.0.1
+info:
+  title: verification
+  description: verify access token is valid. Ensure the server enviroment right above the Execute button is set to desired type - PROD or DEV.
+  version: "1.0"
+servers:
+- url: https://groupm-prod.apigee.net
+  description: Live production data
+- url: https://groupm-dev.apigee.net
+  description: Dev production data
+paths:
+  /mPlatform/mptv/verification:
+    get:
+      description: Required parameters
+      parameters:
+      - name: AcmToken
+        in: header
+        required: true
+        style: simple
+        description: The token you want to verify
+        explode: false
+        schema:
+          type: string
+        example: eyJraWQiOiJ0NzhJbTdRWEpkSGZURjZYamRQb3FSOTZoSFJzelVod3ZKb1MxUm5oWmlZIiwiYWxnIjoiUlMyNTYifQeyJ2ZXIiOj
+      - name: x-apikey
+        in: header
+        required: true
+        style: simple
+        description: The x-apikey is the Consumer Key for App, members only.
+        explode: false
+        schema:
+          type: string
+        example: 2EKZQeOCcPGXZkdAWOkribHzRhov8Wkm
+      responses:
+        200:
+          description: Token details if valid
+          content:
+            application/json;charset=UTF-8:
+               schema:
+                type: object
+                properties:
+                  user_id:
+                    type: string
+                    description: Okta userID.
+                  access_token:
+                    type: string
+                    description: The access token.
+                  refresh_token:
+                    type: string
+                    description: The refresh token.
+                  expire:
+                    type: number
+                    description: The expire time.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorised.
+        '403':
+          description: Forbidden.
+        '404':
+          description: Not Found.
+        '415':
+          description: Unsupported Media Type
+        '500':
+          description: Internal Server Error
+      servers:
+        - url: https://groupm-prod.apigee.net
+        - url: https://groupm-dev.apigee.net
+    servers:
+      - url: https://groupm-prod.apigee.net
+      - url: https://groupm-dev.apigee.net
+components: {}

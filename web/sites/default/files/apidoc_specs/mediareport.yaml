@@ -1,0 +1,143 @@
+openapi: 3.0.1
+info:
+  title: mediareport
+  description: Media reporting API. The input of the Audience report is a little more complicated, for information on the purpose of the report see <a href="/what-it">here</a>. For information on the output see <a href="/using-tv-report-api">here</a>. Ensure the server enviroment right above the Execute button is set to desired type - PROD or DEV.
+  version: "1.0"
+servers:
+- url: https://groupm-prod.apigee.net
+  description: Live production data
+- url: https://groupm-dev.apigee.net
+  description: Dev production data
+paths:
+  /mPlatform/mptv/mediareport:
+    post:
+      description: Media reporting API
+      parameters:
+        - name: accountId
+          in: query
+          schema:
+            type: integer
+            format: int32
+          example: 2
+        - name: AcmToken
+          in: header
+          schema:
+            type: string
+          example: >-
+            eyJraWQiOiI2YzdkTmNDUGdydm9ta3BDR0dZIiwiYWxnIjoiUlMyNTYifQeyJ2ZXIiOjEsImp0VBrV09BbGxKdi1xd1lrNmw2ZTR3NFkS
+        - name: x-apikey
+          in: header
+          schema:
+            type: string
+          example: I9oxxxxfkxxxgIXlVxxxFhN8yTYxxxyx
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                brands:
+                  type: array
+                  items:
+                    type: string
+                dateRange:
+                  type: object
+                  properties:
+                    start:
+                      type: string
+                    end:
+                      type: string
+                advertisers:
+                  type: array
+                  items:
+                    type: string
+                audiences:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      advancedTargetAudience: {}
+                      demographics:
+                        type: object
+                        properties:
+                          individual:
+                            type: string
+                          household: {}
+                metrics:
+                  type: array
+                  items:
+                    type: string
+            examples:
+              '0':
+                value: |-
+                  {
+                      "advertisers": [
+                          "Nickelodeon"
+                      ],
+                      "brands": [
+                          "2K Sports NBA",
+                          "2K Sports WWE",
+                          "Burger King",
+                          "Dominos",
+                          "Geico",
+                          "Geico Sponsorship",
+                          "Liberty Mutual",
+                          "McDonalds",
+                          "McDonalds Corporate",
+                          "Gak",
+                          "Nick At Nite",
+                          "Nick Jr",
+                          "Nickelodeon",
+                          "Nickelodeon Sponsorship",
+                          "Nicktoons",
+                          "TeenNick"
+                      ],
+                      "audiences": [
+                          {
+                              "name": "audience1_IndOnly",
+                              "demographics": {
+                                  "individual": "$0 - $19,999",
+                                  "household": null
+                              },
+                              "advancedTargetAudience": null
+                          }
+                      ],
+                      "dateRange": {
+                          "start": "2018-10-01",
+                          "end": "2018-12-31"
+                      },
+                      "metrics": [
+                          "reach",
+                          "frequency",
+                          "grp",
+                          "affinity",
+                          "efficiency",
+                          "number_of_networks",
+                          "number_of_spots",
+                          "concentration",
+                          "wastage"
+                      ]
+                  }
+      responses:
+        '200':
+          description: success
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorised.
+        '403':
+          description: Forbidden.
+        '404':
+          description: Not Found.
+        '415':
+          description: Unsupported Media Type
+        '500':
+          description: Internal Server Error
+      servers:
+        - url: https://groupm-prod.apigee.net
+        - url: https://groupm-dev.apigee.net
+    servers:
+      - url: https://groupm-prod.apigee.net
+      - url: https://groupm-dev.apigee.net
